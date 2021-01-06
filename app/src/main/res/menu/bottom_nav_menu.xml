@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/main_nav"
+        android:icon="@drawable/compass"
+        android:title="Главное меню" />
+    <item
+        android:id="@+id/history_nav"
+        android:icon="@drawable/world"
+        android:title="История"/>
+    <item
+        android:id="@+id/settings_nav"
+        android:icon="@drawable/man"
+        android:title="Настройки"/>
+
+</menu>
