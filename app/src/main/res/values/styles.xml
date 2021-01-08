@@ -17,4 +17,9 @@
         <item name="android:fontFamily">@font/fauna_one</item>
         <item name="background">@drawable/button_style</item>
     </style>
+    <style name="skip_btn">
+        <item name="fontFamily">@font/fauna_one</item>
+        <item name="background">@color/skip</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

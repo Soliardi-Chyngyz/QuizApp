@@ -1,4 +1,4 @@
-package com.chyngyz.quizapp;
+package com.chyngyz.quizapp;  
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
