@@ -17,9 +17,15 @@
         <item name="android:fontFamily">@font/fauna_one</item>
         <item name="background">@drawable/button_style</item>
     </style>
-    <style name="skip_btn">
+
+    <style name="btn_second_style">
         <item name="fontFamily">@font/fauna_one</item>
-        <item name="background">@color/skip</item>
+        <item name="android:textColor">@color/blue</item>
+        <item name="background">@drawable/btn_trassparent_style</item>
+    </style>
+    <style name="skip_btn" >
+        <item name="fontFamily">@font/fauna_one</item>
+        <item name="backgroundTint">@color/skip</item>
         <item name="android:textColor">@color/white</item>
     </style>
 </resources>
