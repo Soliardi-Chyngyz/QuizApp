@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.SnapHelper;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.databinding.ActivityQuestionBinding;
@@ -47,6 +48,10 @@ public class QuestionActivity extends AppCompatActivity {
         initRecycler();
         getDataIntent();
         getQuestionsData();
+
+        viewModel.getToastObserver().observe(this, s -> {
+            Toast.makeText(this, "Что-то пошло не так", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void getDataIntent() {
@@ -60,8 +65,8 @@ public class QuestionActivity extends AppCompatActivity {
         viewModel.mQuestions.observe(this, new Observer<QuizResponse>() {
             @Override
             public void onChanged(QuizResponse quizResponse) {
-                binding.progressBar.setVisibility(View.GONE);
                 if (quizResponse.getResults().size() > 0) {
+                    binding.progressBar.setVisibility(View.GONE);
                     quizAdapter = new QuizAdapter(quizResponse.getResults());
                     recyclerView.setAdapter(quizAdapter);
                 }

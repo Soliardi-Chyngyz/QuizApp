@@ -2,6 +2,7 @@ package com.chyngyz.quizapp.ui.question;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.databinding.ObservableField;
@@ -26,6 +27,11 @@ import retrofit2.Response;
 
 public class QuestionViewModel extends ViewModel {
     public MutableLiveData<QuizResponse> mQuestions = new MutableLiveData<>();
+    private MutableLiveData<String> toastMessageObserver = new MutableLiveData();
+
+    public LiveData<String> getToastObserver(){
+        return toastMessageObserver;
+    }
 
     public void getQuestionsFromBack(int amount, int category, String value) {
         QuizApiClient.getInstance().getQuestions(amount, category, value).enqueue(new Callback<QuizResponse>() {
@@ -34,23 +40,18 @@ public class QuestionViewModel extends ViewModel {
                 if (response.isSuccessful() && response.body() != null) {
                     mQuestions.setValue(response.body());
                     for (int i = 0; i < mQuestions.getValue().getResults().size(); i++) {
-                        ArrayList<String> answers = mQuestions.getValue().getResults().get(i).getIncorrect_answers();
-                        answers.add(mQuestions.getValue().getResults().get(i).getCorrect_answer());
-                        Collections.shuffle(answers);
-                        Question question = new Question();
-                        question.setIncorrect_answers(answers);
+                        mQuestions.getValue().getResults().get(i).getIncorrect_answers().add(mQuestions.getValue().getResults().get(i).getCorrect_answer());
+                        Collections.shuffle(mQuestions.getValue().getResults().get(i).getIncorrect_answers());
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<QuizResponse> call, Throwable t) {
                 Log.e("TAG", "onFailure: " + t.getMessage());
+                toastMessageObserver.setValue(t.getMessage());
             }
         });
     }
 
-    public void shuffle() {
 
-    }
 }

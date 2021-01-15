@@ -1,6 +1,7 @@
 package com.chyngyz.quizapp.ui.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import com.chyngyz.quizapp.databinding.QuizItemBinding;
 import com.chyngyz.quizapp.ui.models.Question;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizVH> {
 
@@ -45,7 +47,6 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizVH> {
         public QuizVH(@NonNull QuizItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-
         }
     }
 }
