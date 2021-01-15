@@ -1,132 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
+    <data>
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+        <import type="android.view.View" />
+
+        <variable
+            name="main_fragment"
+            type="com.chyngyz.quizapp.ui.mainFragment.MainFragment" />
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingTop="32dp"
-        android:paddingRight="24dp"
-        tools:context=".ui.mainFragment.MainFragment">
+        android:layout_height="match_parent">
 
-        <TextView
-            style="@style/title_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quiz"
-            android:textStyle="bold" />
+        <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="24dp"
+            android:paddingTop="32dp"
+            android:paddingRight="24dp"
+            tools:context=".ui.mainFragment.MainFragment">
 
-        <ImageView
-            android:layout_width="63dp"
-            android:layout_height="90dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/vec" />
+            <TextView
+                style="@style/title_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quiz"
+                android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical">
+            <ImageView
+                android:layout_width="63dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/vec" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Questions amount: " />
+
+                    <TextView
+                        android:id="@+id/amount"
+                        style="@style/text_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+                <SeekBar
+                    android:id="@+id/seekBar"
+                    android:max="50"
+                    android:progress="5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp" />
 
                 <TextView
                     style="@style/text_style"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Questions amount: " />
+                    android:layout_marginTop="15dp"
+                    android:text="Category" />
 
-                <TextView
-                    android:id="@+id/amount"
-                    style="@style/text_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/main_fr_progress_bar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="visible"
+                android:indeterminate="true"
+                android:indeterminateTintMode="src_atop"
+                android:indeterminateTint="@color/purple_700"/>
+
+            <LinearLayout
+                android:layout_width="255dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/spinner">
+
+                <Spinner
+                    android:id="@+id/spinner_category"
+                    android:layout_width="240dp"
+                    android:spinnerMode="dialog"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center" />
 
             </LinearLayout>
 
 
-            <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp" />
-
             <TextView
                 style="@style/text_style"
-                android:layout_width="match_parent"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:text="Category" />
+                android:text="Difficulty" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="255dp"
-            android:layout_height="58dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/spinner">
-
-            <Spinner
-                android:id="@+id/category"
-                android:layout_width="240dp"
-                android:layout_height="46dp"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-
-        <TextView
-            style="@style/text_style"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:text="Difficulty" />
-
-        <LinearLayout
-            android:layout_width="255dp"
-            android:layout_height="58dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/spinner">
-
-            <Spinner
-                android:id="@+id/difficulty"
-                android:layout_width="240dp"
-                android:layout_height="46dp"
-                android:layout_gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:elevation="40dp">
-
-            <Button
-                android:id="@+id/start"
-                style="@style/btn_style"
-                android:layout_width="240dp"
+            <LinearLayout
+                android:layout_width="255dp"
                 android:layout_height="58dp"
                 android:layout_gravity="center"
-                android:elevation="40dp"
-                android:text="Башталось!" />
-        </LinearLayout>
+                android:layout_marginTop="15dp"
+                android:background="@drawable/spinner">
 
-    </LinearLayout>
-</ScrollView>
+                <Spinner
+                    android:id="@+id/spinner_difficulty"
+                    android:layout_width="240dp"
+                    style="@style/text_style"
+                    android:spinnerMode="dialog"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:elevation="40dp">
+
+                <Button
+                    android:id="@+id/start"
+                    style="@style/btn_style"
+                    android:layout_width="240dp"
+                    android:layout_height="58dp"
+                    android:layout_gravity="center"
+                    android:elevation="40dp"
+                    android:text="Башталось!" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</layout>
 

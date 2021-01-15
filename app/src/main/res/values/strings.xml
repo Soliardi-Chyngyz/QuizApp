@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">QuizApp</string>
+
+    <string-array name="difficult">
+        <item>any-type</item>
+        <item>easy</item>
+        <item>medium</item>
+        <item>heavy</item>
+    </string-array>
+
+    <string name="multiple">multiple</string>
+    <string name="boolen">boolean</string>
 </resources>

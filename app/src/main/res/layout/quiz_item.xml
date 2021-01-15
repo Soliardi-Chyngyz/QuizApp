@@ -2,11 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="android.view.View"/>
-
+        <import type="android.view.View" />
         <variable
-            name="quiz"
-            type="com.chyngyz.quizapp.ui.models.Quiz" />
+            name="question"
+            type="com.chyngyz.quizapp.ui.models.Question" />
     </data>
 
     <LinearLayout
@@ -17,20 +16,20 @@
 
         <TextView
             android:id="@+id/question_text"
-            android:layout_width="match_parent"
             style="@style/text_style"
+            android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="31dp"
             android:gravity="center_vertical|center_horizontal"
-            android:text="@{quiz.question}" />
+            android:text="@{question.question}" />
 
         <LinearLayout
             android:id="@+id/answers_btns"
             android:layout_width="match_parent"
-            android:visibility="@{quiz.v1 != null ? View.VISIBLE : View.GONE}"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="@{question.type.equals(@string/multiple) ? View.VISIBLE : View.GONE}">
 
 
             <Button
@@ -39,28 +38,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="40dp"
-                android:text="@{quiz.v1}" />
+                android:text="@{question.incorrect_answers.get(0)}" />
 
             <Button
                 android:id="@+id/q_btn2"
                 style="@style/btn_style"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="@{quiz.v2}" />
+                android:text="@{question.incorrect_answers.get(1)}" />
 
             <Button
                 android:id="@+id/q_btn3"
                 style="@style/btn_style"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="@{quiz.v3}" />
+                android:text="@{question.incorrect_answers.get(2)}" />
 
             <Button
                 android:id="@+id/q_btn4"
                 style="@style/btn_style"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="@{quiz.v4}" />
+                android:layout_height="50dp" />
 
         </LinearLayout>
 
@@ -68,19 +66,16 @@
             android:id="@+id/question_btn_yes"
             style="@style/btn_second_style"
             android:layout_width="match_parent"
-            android:text="Yes"
-            android:visibility="@{quiz.v1 != null ? View.GONE : View.VISIBLE}"
-            android:backgroundTint="@color/white"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@color/white"/>
 
         <Button
             android:id="@+id/question_btn_no"
             style="@style/btn_second_style"
-            android:text="No"
-            android:visibility="@{quiz.v1 != null ? View.GONE : View.VISIBLE}"
-            android:backgroundTint="@color/white"
             android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:layout_marginTop="24dp"
-            android:layout_height="50dp"/>
+            android:backgroundTint="@color/white" />
     </LinearLayout>
 </layout>
