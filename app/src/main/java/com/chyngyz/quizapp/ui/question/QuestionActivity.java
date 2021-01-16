@@ -20,6 +20,7 @@ import com.chyngyz.quizapp.ui.models.Question;
 import com.chyngyz.quizapp.ui.models.QuizResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
 
@@ -62,14 +63,11 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void getQuestionsData() {
         viewModel.getQuestionsFromBack(amount, countOfCategory, valueOfDifficult);
-        viewModel.getMQuestion().observe(this, new Observer<QuizResponse>() {
-            @Override
-            public void onChanged(QuizResponse quizResponse) {
-                if (quizResponse.getResults().size() > 0) {
-                    binding.progressBar.setVisibility(View.GONE);
-                    quizAdapter = new QuizAdapter(quizResponse.getResults());
-                    recyclerView.setAdapter(quizAdapter);
-                }
+        viewModel.getMQuestion().observe(this, questions -> {
+            if(questions.size() > 0){
+                binding.progressBar.setVisibility(View.GONE);
+                quizAdapter = new QuizAdapter(questions);
+                recyclerView.setAdapter(quizAdapter);
             }
         });
     }

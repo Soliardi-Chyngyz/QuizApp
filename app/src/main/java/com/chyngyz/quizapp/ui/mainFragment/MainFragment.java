@@ -20,24 +20,15 @@ import android.widget.SeekBar;
 
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.core.MineSeekBarChangeListener;
-import com.chyngyz.quizapp.data.QuizApiClient;
 import com.chyngyz.quizapp.databinding.MainFragmentBinding;
 import com.chyngyz.quizapp.ui.adapter.spinner.CustomAdapter;
-import com.chyngyz.quizapp.ui.mainFragment.MainViewModel;
-import com.chyngyz.quizapp.ui.models.Category;
 import com.chyngyz.quizapp.ui.models.UnderCategory;
 import com.chyngyz.quizapp.ui.question.QuestionActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static com.chyngyz.quizapp.R.layout.my_own_spinner_item;
-import static com.chyngyz.quizapp.R.layout.support_simple_spinner_dropdown_item;
 
 public class MainFragment extends Fragment {
 
@@ -46,7 +37,6 @@ public class MainFragment extends Fragment {
     private int sumOfAmount = 5;
     private int countOfCategory;
     private String valueOfDifficulty;
-
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -105,7 +95,7 @@ public class MainFragment extends Fragment {
                 if (position != 0) {
                     valueOfDifficulty = choose[position];
                 } else {
-                    valueOfDifficulty = choose[(int) (Math.random() * + + 3) + 1];
+                    valueOfDifficulty = choose[(int) (Math.random() * + +3) + 1];
                 }
             }
 
@@ -129,7 +119,7 @@ public class MainFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 countOfCategory = (position + 8);
                 if (position == 0) {
-                    countOfCategory = (int) (Math.random() * + + 23) + 9;
+                    countOfCategory = (int) (Math.random() * + +23) + 9;
                 }
             }
 
@@ -141,8 +131,20 @@ public class MainFragment extends Fragment {
     }
 
     private void spinnerBack() {
-        List<UnderCategory> list = new ArrayList<>();
-        QuizApiClient.getInstance().getCategories().enqueue(new Callback<Category>() {
+        mViewModel.getUnderCategoryBack();
+
+        mViewModel.getUnderCategoryLiceData().observe(this, underCategory -> {
+            List<UnderCategory> list = new ArrayList<>();
+            list.add(underCategory);
+            UnderCategory anyCat = new UnderCategory(8, "Any-type");
+            list.add(0, anyCat);
+            CustomAdapter customAdapter = new CustomAdapter(getContext(), R.layout.my_own_spinner_item, list);
+            binding.spinnerCategory.setAdapter(customAdapter);
+            binding.mainFrProgressBar.setVisibility(View.GONE);
+        });
+    }
+
+        /*QuizApiService.getInstance().getCategories().enqueue(new Callback<Category>() {
             @Override
             public void onResponse(Call<Category> call, Response<Category> response) {
                 if (response.isSuccessful()) {
@@ -154,28 +156,17 @@ public class MainFragment extends Fragment {
                             UnderCategory underCategory = new UnderCategory(id, name);
                             list.add(underCategory);
                         }
-                        UnderCategory anyCat = new UnderCategory(8, "Any-type");
-                        list.add(0, anyCat);
-                        CustomAdapter customAdapter = new CustomAdapter(getContext(), R.layout.my_own_spinner_item, list);
-                        binding.spinnerCategory.setAdapter(customAdapter);
-                        binding.mainFrProgressBar.setVisibility(View.GONE);
+
                     }
                 }
-            }
-
-            @Override
-            public void onFailure(Call<Category> call, Throwable t) {
-
-            }
-        });
-    }
+            }*/
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         // TODO: Use the ViewModel
+        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
     }
 
 }
