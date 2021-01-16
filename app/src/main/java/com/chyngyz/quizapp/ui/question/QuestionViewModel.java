@@ -26,11 +26,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class QuestionViewModel extends ViewModel {
-    public MutableLiveData<QuizResponse> mQuestions = new MutableLiveData<>();
+    private MutableLiveData<QuizResponse> mQuestions = new MutableLiveData<>();
     private MutableLiveData<String> toastMessageObserver = new MutableLiveData();
 
     public LiveData<String> getToastObserver(){
         return toastMessageObserver;
+    }
+
+    public LiveData<QuizResponse> getMQuestion(){
+        return mQuestions;
     }
 
     public void getQuestionsFromBack(int amount, int category, String value) {

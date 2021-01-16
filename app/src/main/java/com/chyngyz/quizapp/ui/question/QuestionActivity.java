@@ -62,7 +62,7 @@ public class QuestionActivity extends AppCompatActivity {
 
     private void getQuestionsData() {
         viewModel.getQuestionsFromBack(amount, countOfCategory, valueOfDifficult);
-        viewModel.mQuestions.observe(this, new Observer<QuizResponse>() {
+        viewModel.getMQuestion().observe(this, new Observer<QuizResponse>() {
             @Override
             public void onChanged(QuizResponse quizResponse) {
                 if (quizResponse.getResults().size() > 0) {

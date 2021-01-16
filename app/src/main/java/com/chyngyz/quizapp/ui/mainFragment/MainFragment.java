@@ -19,9 +19,11 @@ import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 
 import com.chyngyz.quizapp.R;
+import com.chyngyz.quizapp.core.MineSeekBarChangeListener;
 import com.chyngyz.quizapp.data.QuizApiClient;
 import com.chyngyz.quizapp.databinding.MainFragmentBinding;
 import com.chyngyz.quizapp.ui.adapter.spinner.CustomAdapter;
+import com.chyngyz.quizapp.ui.mainFragment.MainViewModel;
 import com.chyngyz.quizapp.ui.models.Category;
 import com.chyngyz.quizapp.ui.models.UnderCategory;
 import com.chyngyz.quizapp.ui.question.QuestionActivity;
@@ -61,7 +63,7 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        binding.seekBar.setOnSeekBarChangeListener(new MineSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (progress >= 1) {
@@ -70,16 +72,6 @@ public class MainFragment extends Fragment {
                     progress = 1;
                 }
                 sumOfAmount = progress;
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
 
