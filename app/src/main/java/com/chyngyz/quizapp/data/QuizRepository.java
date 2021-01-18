@@ -37,7 +37,17 @@ public class QuizRepository implements IQuizApiClient {
 
     @Override
     public void getCategories(IQuizApiCallBack.CategoriesCallBack callBask) {
-        quizApiClient.getCategories(callBask);
+        quizApiClient.getCategories(new IQuizApiCallBack.CategoriesCallBack() {
+            @Override
+            public void onSuccess(Category result) {
+                callBask.onSuccess(result);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                callBask.onFailure(e);
+            }
+        });
     }
 
     private void addAnswers(List<Question> result) {

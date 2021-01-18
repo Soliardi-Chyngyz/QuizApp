@@ -6,6 +6,9 @@
         <import type="android.view.View" />
 
         <variable
+            name="handlers"
+            type="com.chyngyz.quizapp.interfaces.OnButtonAnswerClick" />
+        <variable
             name="question"
             type="com.chyngyz.quizapp.ui.models.Question" />
     </data>

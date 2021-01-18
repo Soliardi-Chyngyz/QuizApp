@@ -108,4 +108,17 @@ public class Question {
     public int hashCode() {
         return Objects.hash(category, type, difficulty, question, correct_answer, incorrect_answers, allSortedAnswers);
     }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "category='" + category + '\'' +
+                ", type='" + type + '\'' +
+                ", difficulty='" + difficulty + '\'' +
+                ", question='" + question + '\'' +
+                ", correct_answer='" + correct_answer + '\'' +
+                ", incorrect_answers=" + incorrect_answers +
+                ", allSortedAnswers=" + allSortedAnswers +
+                '}';
+    }
 }

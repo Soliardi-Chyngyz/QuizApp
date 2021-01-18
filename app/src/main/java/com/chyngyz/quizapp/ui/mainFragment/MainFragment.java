@@ -1,8 +1,11 @@
 package com.chyngyz.quizapp.ui.mainFragment;
 
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -22,6 +25,8 @@ import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.core.MineSeekBarChangeListener;
 import com.chyngyz.quizapp.databinding.MainFragmentBinding;
 import com.chyngyz.quizapp.ui.adapter.spinner.CustomAdapter;
+import com.chyngyz.quizapp.ui.historyFragment.HistoryFragment;
+import com.chyngyz.quizapp.ui.models.Category;
 import com.chyngyz.quizapp.ui.models.UnderCategory;
 import com.chyngyz.quizapp.ui.question.QuestionActivity;
 
@@ -38,10 +43,6 @@ public class MainFragment extends Fragment {
     private int countOfCategory;
     private String valueOfDifficulty;
 
-    public static MainFragment newInstance() {
-        return new MainFragment();
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -50,8 +51,10 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        binding.setMainFragment(mViewModel);
 
         binding.seekBar.setOnSeekBarChangeListener(new MineSeekBarChangeListener() {
             @Override
@@ -132,41 +135,14 @@ public class MainFragment extends Fragment {
 
     private void spinnerBack() {
         mViewModel.getUnderCategoryBack();
+        mViewModel.getUnderCategoryLiceData().observe(this, new Observer<List<UnderCategory>>() {
+            @Override
+            public void onChanged(List<UnderCategory> underCategories) {
 
-        mViewModel.getUnderCategoryLiceData().observe(this, underCategory -> {
-            List<UnderCategory> list = new ArrayList<>();
-            list.add(underCategory);
-            UnderCategory anyCat = new UnderCategory(8, "Any-type");
-            list.add(0, anyCat);
-            CustomAdapter customAdapter = new CustomAdapter(getContext(), R.layout.my_own_spinner_item, list);
-            binding.spinnerCategory.setAdapter(customAdapter);
-            binding.mainFrProgressBar.setVisibility(View.GONE);
+                CustomAdapter customAdapter = new CustomAdapter(binding.getRoot().getContext(), R.layout.my_own_spinner_item, underCategories);
+                binding.spinnerCategory.setAdapter(customAdapter);
+                binding.mainFrProgressBar.setVisibility(View.GONE);
+            }
         });
     }
-
-        /*QuizApiService.getInstance().getCategories().enqueue(new Callback<Category>() {
-            @Override
-            public void onResponse(Call<Category> call, Response<Category> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        ArrayList<UnderCategory> categories = response.body().getTrivia_categories();
-                        for (int i = 0; i < categories.size(); i++) {
-                            int id = categories.get(i).getId();
-                            String name = categories.get(i).getName();
-                            UnderCategory underCategory = new UnderCategory(id, name);
-                            list.add(underCategory);
-                        }
-
-                    }
-                }
-            }*/
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // TODO: Use the ViewModel
-        mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-    }
-
 }

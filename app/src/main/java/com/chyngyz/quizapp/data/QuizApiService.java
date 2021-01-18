@@ -1,7 +1,5 @@
 package com.chyngyz.quizapp.data;
 
-import android.util.Log;
-
 import com.chyngyz.quizapp.interfaces.IQuizApiCallBack;
 import com.chyngyz.quizapp.interfaces.IQuizApiClient;
 import com.chyngyz.quizapp.ui.models.Category;
@@ -14,14 +12,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QuizApiService implements IQuizApiClient {
-
     private Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://opentdb.com/")
             .addConverterFactory(GsonConverterFactory.create()) //он для того чтобы мог работать с моделькой
             .build();
 
     private QuizApi quizApi = retrofit.create(QuizApi.class);
-
 
     @Override
     public void getQuestions(int amount, int category, String difficulty, IQuizApiCallBack.QuestionsCallBask callBack) {
@@ -39,7 +35,6 @@ public class QuizApiService implements IQuizApiClient {
                     callBack.onFailure(new Exception("Response if empty " + response.code()));
                 }
             }
-
             @Override
             public void onFailure(Call<QuizResponse> call, Throwable t) {
                 callBack.onFailure(new Exception(t));
@@ -55,13 +50,10 @@ public class QuizApiService implements IQuizApiClient {
                     public void onResponse(Call<Category> call, Response<Category> response) {
                         callBask.onSuccess(response.body());
                     }
-
                     @Override
                     public void onFailure(Call<Category> call, Throwable t) {
                         callBask.onFailure((Exception) t);
                     }
                 });
     }
-
-
 }

@@ -47,4 +47,6 @@ dependencies {
     def retrofit_version = '2.9.0'
     api "com.squareup.retrofit2:retrofit:$retrofit_version"
     api "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    // YoYo
+    implementation 'com.daimajia.androidanimations:library:2.4@aar'
 }

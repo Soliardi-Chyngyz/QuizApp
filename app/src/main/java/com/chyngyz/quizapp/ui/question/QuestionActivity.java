@@ -2,33 +2,26 @@ package com.chyngyz.quizapp.ui.question;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
-
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.databinding.ActivityQuestionBinding;
 import com.chyngyz.quizapp.ui.adapter.QuizAdapter;
 import com.chyngyz.quizapp.ui.models.Question;
-import com.chyngyz.quizapp.ui.models.QuizResponse;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
 
 public class QuestionActivity extends AppCompatActivity {
     private ActivityQuestionBinding binding;
-
     private QuestionViewModel viewModel;
-    private RecyclerView recyclerView;
     private ArrayList<Question> list = new ArrayList<>();
     private QuizAdapter quizAdapter;
 
@@ -42,9 +35,8 @@ public class QuestionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_question);
-        viewModel = new QuestionViewModel();
+        viewModel = new ViewModelProvider(this).get(QuestionViewModel.class);
         binding.setQuestionViewModel(viewModel);
-        binding.quizRecycler.setAdapter(new QuizAdapter(list));
 
         initRecycler();
         getDataIntent();
@@ -67,18 +59,21 @@ public class QuestionActivity extends AppCompatActivity {
             if(questions.size() > 0){
                 binding.progressBar.setVisibility(View.GONE);
                 quizAdapter = new QuizAdapter(questions);
-                recyclerView.setAdapter(quizAdapter);
+                binding.quizRecycler.setAdapter(quizAdapter);
             }
         });
     }
 
     private void initRecycler() {
-        recyclerView = findViewById(R.id.quiz_recycler);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        binding.quizRecycler.setLayoutManager(layoutManager);
+        binding.quizRecycler.setItemAnimator(new DefaultItemAnimator());
         SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
+        snapHelper.attachToRecyclerView(binding.quizRecycler);
+    }
+
+    public void nextPageOfAdapter(){
+        binding.quizRecycler.scrollToPosition(+ + 1);
     }
 
 }
