@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.chyngyz.quizapp.QuizApp;
 import com.chyngyz.quizapp.interfaces.IQuizApiCallBack;
 import com.chyngyz.quizapp.ui.models.Category;
+import com.chyngyz.quizapp.ui.models.Question;
 import com.chyngyz.quizapp.ui.models.UnderCategory;
 
 import java.util.ArrayList;

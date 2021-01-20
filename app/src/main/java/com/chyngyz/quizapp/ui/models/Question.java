@@ -32,6 +32,7 @@ public class Question {
     @Expose
     private ArrayList<String> incorrect_answers;
 
+
     private ArrayList<String> allSortedAnswers;
 
     public ArrayList<String> getAllSortedAnswers() {

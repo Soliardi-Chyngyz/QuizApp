@@ -4,6 +4,7 @@ import com.chyngyz.quizapp.interfaces.IQuizApiCallBack;
 import com.chyngyz.quizapp.interfaces.IQuizApiClient;
 import com.chyngyz.quizapp.ui.models.Category;
 import com.chyngyz.quizapp.ui.models.Question;
+import com.chyngyz.quizapp.ui.models.QuizResult;
 import com.chyngyz.quizapp.ui.models.UnderCategory;
 
 import java.util.ArrayList;
@@ -11,12 +12,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class QuizRepository implements IQuizApiClient {
+public class QuizRepository implements IQuizApiClient, IHistoryStorage {
 
     private IQuizApiClient quizApiClient;
+    private IHistoryStorage historyStorage;
 
-    public QuizRepository(IQuizApiClient quizApiClient) {
+    public QuizRepository(IQuizApiClient quizApiClient, IHistoryStorage historyStorage) {
         this.quizApiClient = quizApiClient;
+        this.historyStorage = historyStorage;
     }
 
     @Override
@@ -55,5 +58,25 @@ public class QuizRepository implements IQuizApiClient {
             result.get(i).getIncorrect_answers().add(result.get(i).getCorrect_answer());
             Collections.shuffle(result.get(i).getIncorrect_answers());
         }
+    }
+
+    @Override
+    public QuizResult getQuizResult(int id) {
+        return null;
+    }
+
+    @Override
+    public int saveQuizResult(QuizResult quizResult) {
+        return 0;
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 }

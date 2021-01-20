@@ -59,22 +59,33 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizVH> {
         public QuizVH(@NonNull QuizItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.qBtn1.setOnClickListener(this);
+            binding.qBtn2.setOnClickListener(this);
+            binding.qBtn3.setOnClickListener(this);
+            binding.qBtn4.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            v.findViewById(R.id.q_btn1).setOnClickListener(this);
-            checkAnswer(binding.qBtn1.getText().toString(), binding.qBtn1);
-            updateData();
-            v.findViewById(R.id.q_btn2).setOnClickListener(this);
-            checkAnswer(binding.qBtn2.getText().toString(), binding.qBtn2);
-            updateData();
-            v.findViewById(R.id.q_btn3).setOnClickListener(this);
-            checkAnswer(binding.qBtn3.getText().toString(), binding.qBtn3);
-            updateData();
-            v.findViewById(R.id.q_btn4).setOnClickListener(this);
-            checkAnswer(binding.qBtn4.getText().toString(), binding.qBtn4);
-            updateData();
+
+            switch (v.getId()) {
+                case R.id.q_btn1:
+                    checkAnswer(binding.qBtn1.getText().toString(), binding.qBtn1);
+                    updateData();
+                    break;
+                case R.id.q_btn2:
+                    checkAnswer(binding.qBtn2.getText().toString(), binding.qBtn2);
+                    updateData();
+                    break;
+                case R.id.q_btn3:
+                    checkAnswer(binding.qBtn3.getText().toString(), binding.qBtn3);
+                    updateData();
+                    break;
+                case R.id.q_btn4:
+                    checkAnswer(binding.qBtn4.getText().toString(), binding.qBtn4);
+                    updateData();
+                    break;
+            }
         }
 
 

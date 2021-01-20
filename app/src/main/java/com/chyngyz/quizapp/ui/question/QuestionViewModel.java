@@ -15,6 +15,8 @@ import java.util.List;
 public class QuestionViewModel extends ViewModel implements IQuizApiCallBack.QuestionsCallBask {
     private MutableLiveData<String> toastMessageObserver = new MutableLiveData();
     private MutableLiveData<ArrayList<Question>> mQuestions = new MutableLiveData<>();
+    private ArrayList<Question> questions = new ArrayList<>();
+
 
     public LiveData<String> getToastObserver(){
         return toastMessageObserver;
@@ -34,5 +36,9 @@ public class QuestionViewModel extends ViewModel implements IQuizApiCallBack.Que
 
     @Override
     public void onFailure(Exception e) {
+    }
+
+    public void onAnswersClick(int questionsPosition){
+
     }
 }
