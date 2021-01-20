@@ -28,9 +28,11 @@ import java.util.ArrayList;
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizVH> {
 
     private ArrayList<Question> list;
+    private Listener listener;
 
-    public QuizAdapter(ArrayList<Question> list) {
+    public QuizAdapter(ArrayList<Question> list, Listener listener) {
         this.list = list;
+        this.listener = listener;
     }
 
     @NonNull
@@ -43,6 +45,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizVH> {
     @Override
     public void onBindViewHolder(@NonNull QuizVH holder, int position) {
         holder.binding.setQuestion(list.get(position));
+
     }
 
     @Override
@@ -175,6 +178,10 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizVH> {
             binding.qBtn3.setEnabled(false);
             binding.qBtn4.setEnabled(false);
         }
+    }
+
+    public interface Listener{
+        void onAnswerClick(int position, int answerPosition);
     }
 }
 

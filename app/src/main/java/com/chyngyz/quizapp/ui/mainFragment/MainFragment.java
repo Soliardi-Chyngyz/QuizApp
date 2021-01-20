@@ -36,12 +36,14 @@ import java.util.List;
 import static com.chyngyz.quizapp.R.layout.my_own_spinner_item;
 
 public class MainFragment extends Fragment {
+    public static final String TITLE_KEY = "title_key";
 
     private MainViewModel mViewModel;
     private MainFragmentBinding binding;
     private int sumOfAmount = 5;
     private int countOfCategory;
     private String valueOfDifficulty;
+    private String titleOfCategory;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -69,7 +71,6 @@ public class MainFragment extends Fragment {
         });
 
         spinnerBack();
-        onSelectedSpinnerCategory();
 
         spinnerDifficulty();
         onSelectedSpinnerDifficulty();
@@ -84,6 +85,7 @@ public class MainFragment extends Fragment {
                 intent.putExtra("amount", sumOfAmount);
                 intent.putExtra("countOfCategory", countOfCategory);
                 intent.putExtra("valueOfDifficult", valueOfDifficulty);
+                intent.putExtra(TITLE_KEY, titleOfCategory);
                 startActivity(intent);
                 Log.v("value", "amount: " + sumOfAmount + "categort " + countOfCategory + "diff " + valueOfDifficulty);
             }
@@ -117,32 +119,33 @@ public class MainFragment extends Fragment {
     }
 
     private void onSelectedSpinnerCategory() {
-        binding.spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                countOfCategory = (position + 8);
-                if (position == 0) {
-                    countOfCategory = (int) (Math.random() * + +23) + 9;
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     private void spinnerBack() {
         mViewModel.getUnderCategoryBack();
-        mViewModel.getUnderCategoryLiceData().observe(this, new Observer<List<UnderCategory>>() {
-            @Override
-            public void onChanged(List<UnderCategory> underCategories) {
+        mViewModel.getUnderCategoryLiceData().observe(this, (List<UnderCategory> underCategories) -> {
 
-                CustomAdapter customAdapter = new CustomAdapter(binding.getRoot().getContext(), R.layout.my_own_spinner_item, underCategories);
-                binding.spinnerCategory.setAdapter(customAdapter);
-                binding.mainFrProgressBar.setVisibility(View.GONE);
-            }
+            CustomAdapter customAdapter = new CustomAdapter(binding.getRoot().getContext(), R.layout.my_own_spinner_item, underCategories);
+            binding.spinnerCategory.setAdapter(customAdapter);
+            binding.mainFrProgressBar.setVisibility(View.GONE);
+
+            binding.spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    countOfCategory = (position + 8);
+                    if (position == 0) {
+                        countOfCategory = (int) (Math.random() * + +23) + 9;
+                    }
+                    titleOfCategory = underCategories.get(position).getName();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
         });
+
     }
 }

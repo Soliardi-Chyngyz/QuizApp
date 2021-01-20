@@ -14,12 +14,13 @@ import android.widget.Toast;
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.databinding.ActivityQuestionBinding;
 import com.chyngyz.quizapp.ui.adapter.QuizAdapter;
+import com.chyngyz.quizapp.ui.mainFragment.MainFragment;
 import com.chyngyz.quizapp.ui.models.Question;
 import java.util.ArrayList;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
 
-public class QuestionActivity extends AppCompatActivity {
+public class QuestionActivity extends AppCompatActivity implements QuizAdapter.Listener{
     private ActivityQuestionBinding binding;
     private QuestionViewModel viewModel;
     private ArrayList<Question> list = new ArrayList<>();
@@ -45,12 +46,20 @@ public class QuestionActivity extends AppCompatActivity {
         viewModel.getToastObserver().observe(this, s -> {
             Toast.makeText(this, "Что-то пошло не так", Toast.LENGTH_SHORT).show();
         });
+
+        setArguments();
+    }
+
+    private void setArguments() {
+        binding.progressHorizontBar.setMax(amount);
+        binding.progressHorizontBar.setProgress(0);
     }
 
     private void getDataIntent() {
         amount = getIntent().getExtras().getInt("amount");
         countOfCategory = getIntent().getExtras().getInt("countOfCategory");
         valueOfDifficult = getIntent().getExtras().getString("valueOfDifficult");
+        binding.questionTitle.setText(getIntent().getExtras().getString(MainFragment.TITLE_KEY));
     }
 
     private void getQuestionsData() {
@@ -58,7 +67,7 @@ public class QuestionActivity extends AppCompatActivity {
         viewModel.getMQuestion().observe(this, questions -> {
             if(questions.size() > 0){
                 binding.progressBar.setVisibility(View.GONE);
-                quizAdapter = new QuizAdapter(questions);
+                quizAdapter = new QuizAdapter(questions, this);
                 binding.quizRecycler.setAdapter(quizAdapter);
             }
         });
@@ -76,4 +85,13 @@ public class QuestionActivity extends AppCompatActivity {
         binding.quizRecycler.scrollToPosition(+ + 1);
     }
 
+    @Override
+    public void onAnswerClick(int position, int answerPosition) {
+        viewModel.onAnswersClick(position, answerPosition);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

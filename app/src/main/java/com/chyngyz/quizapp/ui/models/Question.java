@@ -32,6 +32,7 @@ public class Question {
     @Expose
     private ArrayList<String> incorrect_answers;
 
+    private int selectAnswerPosition;
 
     private ArrayList<String> allSortedAnswers;
 
@@ -89,6 +90,14 @@ public class Question {
 
     public void setIncorrect_answers(ArrayList<String> incorrect_answers) {
         this.incorrect_answers = incorrect_answers;
+    }
+
+    public int getSelectAnswerPosition() {
+        return selectAnswerPosition;
+    }
+
+    public void setSelectAnswerPosition(int selectAnswerPosition) {
+        this.selectAnswerPosition = selectAnswerPosition;
     }
 
     @Override
