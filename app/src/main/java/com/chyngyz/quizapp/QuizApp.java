@@ -2,7 +2,10 @@ package com.chyngyz.quizapp;
 
 import android.app.Application;
 
+import androidx.room.Room;
+
 import com.chyngyz.quizapp.data.IHistoryStorage;
+import com.chyngyz.quizapp.data.room.QuizDataBase;
 import com.chyngyz.quizapp.interfaces.IQuizApiCallBack;
 import com.chyngyz.quizapp.data.QuizApiService;
 import com.chyngyz.quizapp.data.QuizRepository;
@@ -13,6 +16,8 @@ public class QuizApp extends Application {
     private static QuizApp instance;
     private static IHistoryStorage historyStorage;
     private QuizRepository quizRepository;
+    private QuizDataBase quizDataBase;
+
 
     @Override
     public void onCreate() {
@@ -21,13 +26,22 @@ public class QuizApp extends Application {
         IQuizApiClient iQuizApiClient = new QuizApiService();
         historyStorage = new HistoryStorage();
         quizRepository = new QuizRepository(iQuizApiClient, historyStorage);
+        quizDataBase = Room.databaseBuilder(this, QuizDataBase.class, "quiz.room")
+                .fallbackToDestructiveMigration() //разрешить миграцию
+                .allowMainThreadQueries()
+                .build();
     }
 
     public static QuizApp getInstance() {
         return instance;
     }
 
-    public QuizRepository getQuizRepository(){
+    public QuizRepository getQuizRepository() {
         return quizRepository;
     }
+
+    public QuizDataBase getDatabase() {
+        return quizDataBase;
+    }
+
 }

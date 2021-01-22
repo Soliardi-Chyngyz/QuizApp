@@ -2,30 +2,34 @@ package com.chyngyz.quizapp.ui.question;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.databinding.ActivityQuestionBinding;
 import com.chyngyz.quizapp.ui.adapter.QuizAdapter;
 import com.chyngyz.quizapp.ui.mainFragment.MainFragment;
 import com.chyngyz.quizapp.ui.models.Question;
+
 import java.util.ArrayList;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
 
-public class QuestionActivity extends AppCompatActivity implements QuizAdapter.Listener{
+public class QuestionActivity extends AppCompatActivity implements QuizAdapter.MainListener {
     private ActivityQuestionBinding binding;
     private QuestionViewModel viewModel;
     private ArrayList<Question> list = new ArrayList<>();
     private QuizAdapter quizAdapter;
-
     int amount;
     int countOfCategory;
     String valueOfDifficult;
@@ -43,16 +47,16 @@ public class QuestionActivity extends AppCompatActivity implements QuizAdapter.L
         getDataIntent();
         getQuestionsData();
 
-        viewModel.getToastObserver().observe(this, s -> {
-            Toast.makeText(this, "Что-то пошло не так", Toast.LENGTH_SHORT).show();
-        });
-
         setArguments();
     }
 
     private void setArguments() {
         binding.progressHorizontBar.setMax(amount);
         binding.progressHorizontBar.setProgress(0);
+        viewModel.getCurrentQuestionPosition().observe(this, position -> {
+            binding.quizRecycler.scrollToPosition(position);
+            binding.progressHorizontBar.setProgress(position + 1);
+        });
     }
 
     private void getDataIntent() {
@@ -65,7 +69,8 @@ public class QuestionActivity extends AppCompatActivity implements QuizAdapter.L
     private void getQuestionsData() {
         viewModel.getQuestionsFromBack(amount, countOfCategory, valueOfDifficult);
         viewModel.getMQuestion().observe(this, questions -> {
-            if(questions.size() > 0){
+            binding.progressHorizontBar.setMax(questions.size());
+            if (questions.size() > 0) {
                 binding.progressBar.setVisibility(View.GONE);
                 quizAdapter = new QuizAdapter(questions, this);
                 binding.quizRecycler.setAdapter(quizAdapter);
@@ -74,24 +79,26 @@ public class QuestionActivity extends AppCompatActivity implements QuizAdapter.L
     }
 
     private void initRecycler() {
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, HORIZONTAL, false) {
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
         binding.quizRecycler.setLayoutManager(layoutManager);
         binding.quizRecycler.setItemAnimator(new DefaultItemAnimator());
+
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(binding.quizRecycler);
-    }
-
-    public void nextPageOfAdapter(){
-        binding.quizRecycler.scrollToPosition(+ + 1);
-    }
-
-    @Override
-    public void onAnswerClick(int position, int answerPosition) {
-        viewModel.onAnswersClick(position, answerPosition);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void onAnswerClick(int questionPosition, int answerPosition, int result) {
+        viewModel.onAnswersClick(questionPosition, answerPosition);
     }
 }

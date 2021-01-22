@@ -49,4 +49,8 @@ dependencies {
     api "com.squareup.retrofit2:converter-gson:$retrofit_version"
     // YoYo
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
+    // Room
+    def room_version = "2.2.6"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
 }

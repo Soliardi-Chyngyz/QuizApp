@@ -1,11 +1,15 @@
 package com.chyngyz.quizapp.ui.question;
 
+import android.os.CountDownTimer;
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.chyngyz.quizapp.QuizApp;
 import com.chyngyz.quizapp.interfaces.IQuizApiCallBack;
+import com.chyngyz.quizapp.interfaces.ShortCountDownTimer;
 import com.chyngyz.quizapp.ui.models.Question;
 import com.chyngyz.quizapp.ui.models.QuizResponse;
 
@@ -13,17 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionViewModel extends ViewModel implements IQuizApiCallBack.QuestionsCallBask {
-    private MutableLiveData<String> toastMessageObserver = new MutableLiveData();
+
     private MutableLiveData<ArrayList<Question>> mQuestions = new MutableLiveData<>();
-    private MutableLiveData<Integer> currentQuestionPosition = new MutableLiveData<>();
+    private final MutableLiveData<Integer> currentQuestionPosition = new MutableLiveData<>(0);
     private ArrayList<Question> questions = new ArrayList<>();
 
     public LiveData<Integer> getCurrentQuestionPosition() {
         return currentQuestionPosition;
-    }
-
-    public LiveData<String> getToastObserver() {
-        return toastMessageObserver;
     }
 
     public LiveData<ArrayList<Question>> getMQuestion() {
@@ -46,11 +46,16 @@ public class QuestionViewModel extends ViewModel implements IQuizApiCallBack.Que
     public void onFailure(Exception e) {
     }
 
-    public void moveToQuestionOnFinish(int position) {
-        if(position == questions.size() - 1){
+    public void moveToQuestionOnFinish(int questionsPosition) {
+        if(questionsPosition == mQuestions.getValue().size() - 1 ){
             finishQuiz();
         } else {
-            currentQuestionPosition.setValue(position);
+            new ShortCountDownTimer(500, 500) {
+                @Override
+                public void onFinish() {
+                    currentQuestionPosition.setValue(currentQuestionPosition.getValue() + 1);
+                }
+            }.start();
         }
     }
 
@@ -58,18 +63,30 @@ public class QuestionViewModel extends ViewModel implements IQuizApiCallBack.Que
 
     }
 
-    void onSkip(){}
+    public void onSkip() {
+        if (currentQuestionPosition.getValue() == mQuestions.getValue().size() - 1) {
+            lastAnswerClick();
+        } else {
+            currentQuestionPosition.setValue(currentQuestionPosition.getValue() + 1);
+        }
+    }
 
-    void onBackPressed(){}
+    private void lastAnswerClick() {
+
+    }
+
+    void onBackPressed() {
+    }
 
     public void onAnswersClick(int questionsPosition, int answerPosition) {
         if (questions == null) {
             return;
         }
-        Question question = questions.get(questionsPosition);
-        question.setSelectAnswerPosition(answerPosition);
-        questions.add(questionsPosition, question);
-        mQuestions.setValue(questions);
+
         moveToQuestionOnFinish(questionsPosition);
     }
 }
+/* Question question = questions.get(questionsPosition);
+        question.setSelectAnswerPosition(answerPosition);
+        questions.add(questionsPosition, question);
+        mQuestions.setValue(questions);*/

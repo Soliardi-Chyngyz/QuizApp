@@ -1,18 +1,13 @@
 package com.chyngyz.quizapp.ui.mainFragment;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +20,8 @@ import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.core.MineSeekBarChangeListener;
 import com.chyngyz.quizapp.databinding.MainFragmentBinding;
 import com.chyngyz.quizapp.ui.adapter.spinner.CustomAdapter;
-import com.chyngyz.quizapp.ui.historyFragment.HistoryFragment;
-import com.chyngyz.quizapp.ui.models.Category;
 import com.chyngyz.quizapp.ui.models.UnderCategory;
 import com.chyngyz.quizapp.ui.question.QuestionActivity;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.chyngyz.quizapp.R.layout.my_own_spinner_item;
@@ -116,10 +107,6 @@ public class MainFragment extends Fragment {
         adapter.setDropDownViewResource(my_own_spinner_item);
         binding.spinnerDifficulty.setAdapter(adapter);
         binding.spinnerDifficulty.setSelection(0);
-    }
-
-    private void onSelectedSpinnerCategory() {
-
     }
 
     private void spinnerBack() {

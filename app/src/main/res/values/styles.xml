@@ -21,7 +21,6 @@
     <style name="btn_second_style">
         <item name="fontFamily">@font/fauna_one</item>
         <item name="android:textColor">@color/blue</item>
-        <item name="background">@drawable/btn_trassparent_style</item>
     </style>
     <style name="skip_btn" >
         <item name="fontFamily">@font/fauna_one</item>

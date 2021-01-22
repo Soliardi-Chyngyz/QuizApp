@@ -152,12 +152,6 @@
                     android:layout_gravity="center"
                     android:elevation="40dp"
                     android:text="Башталось!" />
-
-                <Button
-                    android:id="@+id/toHistory"
-                    android:layout_width="match_parent"
-                    android:text="toHistory"
-                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
         </LinearLayout>
