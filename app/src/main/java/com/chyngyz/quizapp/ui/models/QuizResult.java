@@ -3,31 +3,34 @@ package com.chyngyz.quizapp.ui.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.chyngyz.quizapp.data.room.converter.DateConverter;
 import com.chyngyz.quizapp.data.room.converter.QuestionConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 @Entity(tableName = "QResult")
-public class QuizResult  {
+public class QuizResult implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
     @ColumnInfo(name = "category")
     private String category;
     @ColumnInfo(name = "difficulty")
     private String difficulty;
     @ColumnInfo(name = "correct_answer")
-    private int correctAnswer;
+    private String correctAnswer;
     @TypeConverters({DateConverter.class})
     private Date createdAt;
     @TypeConverters({QuestionConverter.class})
     private List<Question> questionList;
 
-    public QuizResult(String category, String difficulty, int correctAnswer, Date createdAt, List<Question> questionList) {
+
+    public QuizResult(String category, String difficulty, String correctAnswer, Date createdAt, List<Question> questionList) {
         this.category = category;
         this.difficulty = difficulty;
         this.correctAnswer = correctAnswer;
@@ -35,11 +38,11 @@ public class QuizResult  {
         this.questionList = questionList;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -59,11 +62,11 @@ public class QuizResult  {
         this.difficulty = difficulty;
     }
 
-    public int getCorrectAnswer() {
+    public String getCorrectAnswer() {
         return correctAnswer;
     }
 
-    public void setCorrectAnswer(int correctAnswer) {
+    public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
 

@@ -40,6 +40,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.bind(inflater.inflate(R.layout.main_fragment, container, false));
+        assert binding != null;
         return binding.getRoot();
     }
 

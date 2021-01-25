@@ -2,33 +2,27 @@ package com.chyngyz.quizapp.ui.question;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.databinding.ActivityQuestionBinding;
 import com.chyngyz.quizapp.ui.adapter.QuizAdapter;
 import com.chyngyz.quizapp.ui.mainFragment.MainFragment;
-import com.chyngyz.quizapp.ui.models.Question;
-
-import java.util.ArrayList;
+import com.chyngyz.quizapp.ui.resultActivity.ResultActivity;
 
 import static androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL;
+import static com.chyngyz.quizapp.core.StaticMethods.RESULT_ACTIVITY_CODE;
 
-public class QuestionActivity extends AppCompatActivity implements QuizAdapter.MainListener {
+public class QuestionActivity extends AppCompatActivity implements QuizAdapter.OnResultAnswerClickListener {
     private ActivityQuestionBinding binding;
     private QuestionViewModel viewModel;
-    private ArrayList<Question> list = new ArrayList<>();
     private QuizAdapter quizAdapter;
     int amount;
     int countOfCategory;
@@ -56,6 +50,12 @@ public class QuestionActivity extends AppCompatActivity implements QuizAdapter.M
         viewModel.getCurrentQuestionPosition().observe(this, position -> {
             binding.quizRecycler.scrollToPosition(position);
             binding.progressHorizontBar.setProgress(position + 1);
+        });
+        viewModel.getQuizResultNoRoom().observe(this, quizResultNoRoom -> {
+            Intent intent = new Intent(QuestionActivity.this, ResultActivity.class);
+            intent.putExtra(RESULT_ACTIVITY_CODE, quizResultNoRoom);
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -90,15 +90,20 @@ public class QuestionActivity extends AppCompatActivity implements QuizAdapter.M
 
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(binding.quizRecycler);
+
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (viewModel.getCurrentQuestionPosition().getValue() != null) {
+            viewModel.setCurrentQuestionPosition(viewModel.getCurrentQuestionPosition().getValue() - 1);
+            if (viewModel.getCurrentQuestionPosition().getValue() < 0)
+                super.onBackPressed();
+        }
     }
 
     @Override
-    public void onAnswerClick(int questionPosition, int answerPosition, int result) {
-        viewModel.onAnswersClick(questionPosition, answerPosition);
+    public void onClick(int result, String answer) {
+        viewModel.onAnswerClick(result, answer, binding.questionTitle.getText().toString(), valueOfDifficult);
     }
 }

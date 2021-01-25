@@ -2,7 +2,7 @@
 <resources>
 
     <style name="title_style">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:fontFamily">@font/fauna_one</item>
     </style>
 
@@ -12,10 +12,8 @@
     </style>
 
     <style name="btn_style">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
         <item name="android:fontFamily">@font/fauna_one</item>
-        <item name="background">@drawable/button_style</item>
+        <item name="background">@drawable/btn_trassparent_style</item>
     </style>
 
     <style name="btn_second_style">
@@ -24,7 +22,7 @@
     </style>
     <style name="skip_btn" >
         <item name="fontFamily">@font/fauna_one</item>
-        <item name="backgroundTint">@color/skip</item>
+        <item name="background">@drawable/skip_btn_style</item>
         <item name="android:textColor">@color/white</item>
     </style>
 </resources>

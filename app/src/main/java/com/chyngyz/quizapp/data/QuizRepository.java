@@ -1,21 +1,20 @@
 package com.chyngyz.quizapp.data;
 
+import androidx.lifecycle.LiveData;
 import com.chyngyz.quizapp.interfaces.IQuizApiCallBack;
 import com.chyngyz.quizapp.interfaces.IQuizApiClient;
 import com.chyngyz.quizapp.ui.models.Category;
 import com.chyngyz.quizapp.ui.models.Question;
 import com.chyngyz.quizapp.ui.models.QuizResult;
-import com.chyngyz.quizapp.ui.models.UnderCategory;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class QuizRepository implements IQuizApiClient, IHistoryStorage {
 
-    private IQuizApiClient quizApiClient;
-    private IHistoryStorage historyStorage;
+    private final IQuizApiClient quizApiClient;
+    private final IHistoryStorage historyStorage;
 
     public QuizRepository(IQuizApiClient quizApiClient, IHistoryStorage historyStorage) {
         this.quizApiClient = quizApiClient;
@@ -66,17 +65,22 @@ public class QuizRepository implements IQuizApiClient, IHistoryStorage {
     }
 
     @Override
-    public int saveQuizResult(QuizResult quizResult) {
-        return 0;
+    public void saveQuizResult(QuizResult quizResult) {
+        historyStorage.saveQuizResult(quizResult);
     }
 
     @Override
-    public void delete(int id) {
+    public LiveData<List<QuizResult>> getAll() {
+        return historyStorage.getAll();
+    }
 
+    @Override
+    public void delete(long id) {
+        historyStorage.delete(id);
     }
 
     @Override
     public void deleteAll() {
-
+        historyStorage.deleteAll();
     }
 }

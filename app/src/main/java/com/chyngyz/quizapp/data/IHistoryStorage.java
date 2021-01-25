@@ -1,14 +1,19 @@
 package com.chyngyz.quizapp.data;
 
+import androidx.lifecycle.LiveData;
 import com.chyngyz.quizapp.ui.models.QuizResult;
+
+import java.util.List;
 
 public interface IHistoryStorage {
 
     QuizResult getQuizResult(int id);
 
-    int saveQuizResult(QuizResult quizResult);
+    void saveQuizResult(QuizResult quizResult);
 
-    void delete(int id);
+    LiveData<List<QuizResult>> getAll();
+
+    void delete(long id);
 
     void deleteAll();
 }

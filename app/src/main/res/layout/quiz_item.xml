@@ -4,10 +4,10 @@
     <data>
 
         <import type="android.view.View" />
-
         <variable
             name="handlers"
             type="com.chyngyz.quizapp.interfaces.OnButtonAnswerClick" />
+
         <variable
             name="question"
             type="com.chyngyz.quizapp.ui.models.Question" />
@@ -45,6 +45,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="40dp"
                 android:textColor="@color/blue"
+                android:onClick="@{(button) -> handlers.onClick(button, 0)}"
                 android:text="@{question.incorrect_answers.get(0)}" />
 
             <Button
@@ -54,6 +55,7 @@
                 android:textColor="@color/blue"
                 android:layout_height="50dp"
                 android:background="@drawable/btn_trassparent_style"
+                android:onClick="@{(button) -> handlers.onClick(button, 1)}"
                 android:text="@{question.incorrect_answers.get(1)}" />
 
             <Button
@@ -63,6 +65,7 @@
                 android:layout_height="50dp"
                 android:textColor="@color/blue"
                 android:background="@drawable/btn_trassparent_style"
+                android:onClick="@{(button) -> handlers.onClick(button, 2)}"
                 android:text='@{question.incorrect_answers.size() == 4 ? question.incorrect_answers.get(2) : "" }' />
 
             <Button
@@ -72,6 +75,7 @@
                 android:layout_height="50dp"
                 android:textColor="@color/blue"
                 android:background="@drawable/btn_trassparent_style"
+                android:onClick="@{(button) -> handlers.onClick(button, 3)}"
                 android:text='@{question.incorrect_answers.size() == 4 ? question.incorrect_answers.get(3) : "" }' />
 
         </LinearLayout>
@@ -89,8 +93,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="40dp"
                 android:textColor="@color/blue"
-                android:backgroundTint="@color/white"
                 android:background="@drawable/btn_trassparent_style"
+                android:onClick="@{(button) -> handlers.onClick(button, 0)}"
                 android:text="@{question.incorrect_answers.get(0)}" />
 
             <Button
@@ -99,9 +103,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="24dp"
-                android:backgroundTint="@color/white"
                 android:textColor="@color/blue"
                 android:background="@drawable/btn_trassparent_style"
+                android:onClick="@{(button) -> handlers.onClick(button, 1)}"
                 android:text="@{question.incorrect_answers.get(1)}" />
         </LinearLayout>
 

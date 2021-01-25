@@ -2,18 +2,15 @@ package com.chyngyz.quizapp.ui.mainFragment;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
 import com.chyngyz.quizapp.QuizApp;
 import com.chyngyz.quizapp.interfaces.IQuizApiCallBack;
 import com.chyngyz.quizapp.ui.models.Category;
-import com.chyngyz.quizapp.ui.models.Question;
 import com.chyngyz.quizapp.ui.models.UnderCategory;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainViewModel extends ViewModel implements IQuizApiCallBack.CategoriesCallBack {
-    private MutableLiveData<List<UnderCategory>> underCategoryLiceData = new MutableLiveData<>();
+    private final MutableLiveData<List<UnderCategory>> underCategoryLiceData = new MutableLiveData<>();
 
     public MutableLiveData<List<UnderCategory>> getUnderCategoryLiceData() {
         return underCategoryLiceData;
