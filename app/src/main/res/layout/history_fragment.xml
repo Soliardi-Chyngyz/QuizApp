@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="history_fr"
             type="com.chyngyz.quizapp.ui.historyFragment.HistoryViewModel" />
@@ -16,35 +18,30 @@
         tools:context=".ui.historyFragment.HistoryFragment">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/his_title"
+            style="@style/text_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="32dp"
             android:text="History"
-            app:layout_constraintBottom_toTopOf="@+id/his_btn"
+            android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.049"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/his_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="ololo"
-            app:layout_constraintBottom_toTopOf="@+id/his_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <Button
-            android:id="@+id/his_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Push"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/history_recycler"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/his_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            tools:listitem="@layout/history_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

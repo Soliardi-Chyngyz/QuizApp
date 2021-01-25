@@ -2,7 +2,6 @@ package com.chyngyz.quizapp.data;
 
 import com.chyngyz.quizapp.ui.models.Category;
 import com.chyngyz.quizapp.ui.models.QuizResponse;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

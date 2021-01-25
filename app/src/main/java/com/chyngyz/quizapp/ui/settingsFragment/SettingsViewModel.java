@@ -1,17 +1,21 @@
 package com.chyngyz.quizapp.ui.settingsFragment;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SettingsViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
-    public MutableLiveData<String> settingData = new MutableLiveData<>();
+import com.chyngyz.quizapp.QuizApp;
 
-    public void setData (String s){
-        settingData.setValue(s);
+public class SettingsViewModel extends ViewModel {
+
+    private final MutableLiveData<Boolean> showToast = new MutableLiveData<>();
+
+    public LiveData<Boolean> getShowToast(){
+        return showToast;
     }
 
-    public String getData(){
-        return settingData.getValue();
+    public void clear(){
+        QuizApp.getInstance().getQuizRepository().deleteAll();
+        showToast.setValue(true);
     }
 }

@@ -1,11 +1,13 @@
 package com.chyngyz.quizapp.ui.models;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.PrimitiveIterator;
 
 public class Question {
     @SerializedName("category")
@@ -31,18 +33,35 @@ public class Question {
     @SerializedName("incorrect_answers")
     @Expose
     private ArrayList<String> incorrect_answers;
+    private int userChoice;
+    private boolean isClick;
 
-    private int selectAnswerPosition;
-
-    private ArrayList<String> allSortedAnswers;
-
-    public ArrayList<String> getAllSortedAnswers() {
-        return allSortedAnswers;
+    public boolean isClick() {
+        return isClick;
     }
 
-    public void setAllSortedAnswers(ArrayList<String> allSortedAnswers) {
-        this.allSortedAnswers = allSortedAnswers;
+    public void setClick(boolean click) {
+        isClick = click;
     }
+
+    public int getUserChoice() {
+        return userChoice;
+    }
+
+    public void setUserChoice(int userChoice) {
+        this.userChoice = userChoice;
+    }
+
+    private MutableLiveData<Boolean> isSkipClicked = new MutableLiveData<>(false);
+
+    public MutableLiveData<Boolean> getIsSkipClicked() {
+        return isSkipClicked;
+    }
+
+    public void setSkipClicked(boolean skipClicked) {
+        isSkipClicked.setValue(skipClicked);
+    }
+
 
     public String getCategory() {
         return category;
@@ -92,14 +111,6 @@ public class Question {
         this.incorrect_answers = incorrect_answers;
     }
 
-    public int getSelectAnswerPosition() {
-        return selectAnswerPosition;
-    }
-
-    public void setSelectAnswerPosition(int selectAnswerPosition) {
-        this.selectAnswerPosition = selectAnswerPosition;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -110,13 +121,12 @@ public class Question {
                 Objects.equals(difficulty, question1.difficulty) &&
                 Objects.equals(question, question1.question) &&
                 Objects.equals(correct_answer, question1.correct_answer) &&
-                Objects.equals(incorrect_answers, question1.incorrect_answers) &&
-                Objects.equals(allSortedAnswers, question1.allSortedAnswers);
+                Objects.equals(incorrect_answers, question1.incorrect_answers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(category, type, difficulty, question, correct_answer, incorrect_answers, allSortedAnswers);
+        return Objects.hash(category, type, difficulty, question, correct_answer, incorrect_answers);
     }
 
     @Override
@@ -128,7 +138,7 @@ public class Question {
                 ", question='" + question + '\'' +
                 ", correct_answer='" + correct_answer + '\'' +
                 ", incorrect_answers=" + incorrect_answers +
-                ", allSortedAnswers=" + allSortedAnswers +
                 '}';
     }
+
 }

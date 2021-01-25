@@ -1,51 +1,49 @@
 package com.chyngyz.quizapp.ui.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.databinding.QuizItemBinding;
-import com.chyngyz.quizapp.interfaces.AnimationShort;
-import com.chyngyz.quizapp.interfaces.OnButtonAnswerClick;
 import com.chyngyz.quizapp.ui.models.Question;
-import com.chyngyz.quizapp.ui.question.QuestionActivity;
-
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import java.util.ArrayList;
+
+import static com.chyngyz.quizapp.core.StaticMethods.CORRECT_AND_FINAL_ANSWER;
+import static com.chyngyz.quizapp.core.StaticMethods.CORRECT_ANSWER;
+import static com.chyngyz.quizapp.core.StaticMethods.WRONG_ANSWER;
 
 public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizVH> {
 
-    private ArrayList<Question> list;
-    private Listener listener;
+    private final ArrayList<Question> list;
+    private final OnResultAnswerClickListener answerClick;
 
-    public QuizAdapter(ArrayList<Question> list, Listener listener) {
+    public QuizAdapter(ArrayList<Question> list, OnResultAnswerClickListener answerClick) {
         this.list = list;
-        this.listener = listener;
+        this.answerClick = answerClick;
     }
 
     @NonNull
     @Override
     public QuizVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         QuizItemBinding binding = DataBindingUtil.bind(LayoutInflater.from(parent.getContext()).inflate(R.layout.quiz_item, parent, false));
+        assert binding != null;
         return new QuizVH(binding);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(@NonNull QuizVH holder, int position) {
-        holder.binding.setQuestion(list.get(position));
-
+        holder.onBind(list.get(position));
     }
 
     @Override
@@ -53,135 +51,177 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizVH> {
         return list.size();
     }
 
-    public class QuizVH extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class QuizVH extends RecyclerView.ViewHolder implements com.chyngyz.quizapp.interfaces.OnButtonAnswerClick, View.OnTouchListener {
 
-        private int currentPosition = getAdapterPosition() + 1;
-        private QuizItemBinding binding;
+        private final QuizItemBinding binding;
 
         @SuppressLint("ClickableViewAccessibility")
         public QuizVH(@NonNull QuizItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.qBtn1.setOnClickListener(this);
-            binding.qBtn2.setOnClickListener(this);
-            binding.qBtn3.setOnClickListener(this);
-            binding.qBtn4.setOnClickListener(this);
+            this.binding.setHandlers(this);
         }
 
-        @Override
-        public void onClick(View v) {
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        public void onBind(Question question) {
+            binding.qBtn1.setBackgroundResource(R.drawable.btn_trassparent_style);
+            binding.qBtn2.setBackgroundResource(R.drawable.btn_trassparent_style);
+            binding.qBtn3.setBackgroundResource(R.drawable.btn_trassparent_style);
+            binding.qBtn4.setBackgroundResource(R.drawable.btn_trassparent_style);
+            binding.questionBtnYes.setBackgroundResource(R.drawable.btn_trassparent_style);
+            binding.questionBtnNo.setBackgroundResource(R.drawable.btn_trassparent_style); // дэфолтим (обнуляем для каждого цикла)
 
-            switch (v.getId()) {
-                case R.id.q_btn1:
-                    checkAnswer(binding.qBtn1.getText().toString(), binding.qBtn1);
-                    updateData();
-                    break;
-                case R.id.q_btn2:
-                    checkAnswer(binding.qBtn2.getText().toString(), binding.qBtn2);
-                    updateData();
-                    break;
-                case R.id.q_btn3:
-                    checkAnswer(binding.qBtn3.getText().toString(), binding.qBtn3);
-                    updateData();
-                    break;
-                case R.id.q_btn4:
-                    checkAnswer(binding.qBtn4.getText().toString(), binding.qBtn4);
-                    updateData();
-                    break;
-            }
-        }
+            question.getIsSkipClicked().observeForever(aBoolean -> { // клик на скип
+                if (aBoolean) {
+                    buttonClickable(false);
+                    showCorrectButton(question);
+                    onTouch();
+                }
+            });
 
-
-        private void updateData() {
-
-        }
-
-        private void checkAnswer(String userChoose, Button button) {
-            if (userChoose.equals(list.get(getAdapterPosition()).getCorrect_answer())) {
-                fadeView(button);
-                btnDisEnabled();
+            if (question.isClick()) {
+                switch (question.getUserChoice()) {
+                    case 0:
+                        binding.qBtn1.setBackgroundResource(R.drawable.back_wrong);
+                        break;
+                    case 1:
+                        binding.qBtn2.setBackgroundResource(R.drawable.back_wrong);
+                        break;
+                    case 2:
+                        binding.qBtn3.setBackgroundResource(R.drawable.back_wrong);
+                        break;
+                    case 3:
+                        binding.qBtn4.setBackgroundResource(R.drawable.back_wrong);
+                        break;
+                } // на случай если ответит правильно, красный фон заменится правильным
+                onTouch();
+                showCorrectButton(question);
+                buttonClickable(false);
             } else {
-                btnDisEnabled();
-                shakeAnim(button);
+                onTouch();
+                buttonClickable(true);
             }
+            binding.setQuestion(question);
         }
 
-        private void shakeAnim(Button button) {
-            AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
-            alphaAnimation.setDuration(350);
-            alphaAnimation.setRepeatCount(1);
-            alphaAnimation.setRepeatMode(Animation.REVERSE);
-            button.setAnimation(alphaAnimation);
-            alphaAnimation.setAnimationListener(new AnimationShort() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    button.setBackgroundResource(R.drawable.back_color);
-                    if (getAdapterPosition() == list.size() - 1) {
-                        btnDisEnabled();
-                        saveResults();
-                    } else {
-                        goNext();
-                    }
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    button.setBackgroundResource(R.drawable.back_color);
-                }
-            });
-        }
-
-        private void fadeView(Button button) {
-            AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
-            alphaAnimation.setDuration(350);
-            alphaAnimation.setRepeatCount(1);
-            alphaAnimation.setRepeatMode(Animation.REVERSE);
-            button.setAnimation(alphaAnimation);
-            alphaAnimation.setAnimationListener(new AnimationShort() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    button.setBackgroundResource(R.drawable.back_true_back);
-                    if (getAdapterPosition() == list.size() - 1) {
-                        btnDisEnabled();
-                        saveResults();
-                    } else {
-                        goNext();
-                    }
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    button.setBackgroundResource(R.drawable.back_true_back);
-                }
-
-            });
-        }
-
-        private void goNext() {
-            if (currentPosition != list.size() - 1) {
-                QuestionActivity activity = new QuestionActivity();
-                activity.nextPageOfAdapter();
-                binding.qBtn1.setClickable(false);
-                binding.qBtn2.setEnabled(true);
-                binding.qBtn3.setEnabled(true);
-                binding.qBtn4.setEnabled(true);
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        private void showCorrectButton(Question question) {
+            String correctAnc = question.getCorrect_answer();
+            int positionCorrectAnc = 0;
+            for (int i = 0; i < question.getIncorrect_answers().size(); i++) {
+                if (correctAnc.equals(question.getIncorrect_answers().get(i))) // находим нужный ответ
+                    positionCorrectAnc = i;
             }
+            switch (positionCorrectAnc) {
+                case 0:
+                    binding.qBtn1.setBackgroundResource(R.drawable.back_true_back);
+                    binding.questionBtnYes.setBackgroundResource(R.drawable.back_true_back);
+                    YoYo(binding.qBtn1);
+                    YoYo(binding.questionBtnYes);
+                    break;
+                case 1:
+                    binding.qBtn2.setBackgroundResource(R.drawable.back_true_back);
+                    binding.questionBtnNo.setBackgroundResource(R.drawable.back_true_back);
+                    YoYo(binding.qBtn2);
+                    YoYo(binding.questionBtnNo);
+                    break;
+                case 2:
+                    binding.qBtn3.setBackgroundResource(R.drawable.back_true_back);
+                    YoYo(binding.qBtn3);
+                    break;
+                case 3:
+                    binding.qBtn4.setBackgroundResource(R.drawable.back_true_back);
+                    YoYo(binding.qBtn4);
+                    break;
+            } // сетим цвета бэграунда
+
         }
 
-        private void saveResults() {
-
+        private void YoYo(View view) {
+            YoYo.with(Techniques.ZoomIn)
+                    .duration(500)
+                    .repeat(1)
+                    .playOn(view);
         }
 
-        private void btnDisEnabled() {
-            binding.qBtn1.setEnabled(false);
-            binding.qBtn2.setEnabled(false);
-            binding.qBtn3.setEnabled(false);
-            binding.qBtn4.setEnabled(false);
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        public void onClick(View view, int positionAnswer) {
+            binding.getQuestion().setClick(true);
+            binding.getQuestion().setUserChoice(positionAnswer);
+            Button button = (Button) view;
+            int result;
+            Question questionModel = list.get(getAdapterPosition());
+            String userAnswer = questionModel.getIncorrect_answers().get(positionAnswer);
+            if (userAnswer.equals(questionModel.getCorrect_answer())) {
+                if (getAdapterPosition() >= list.size() - 1) {
+                    button.setBackgroundResource(R.drawable.back_true_back);
+                    result = CORRECT_AND_FINAL_ANSWER;
+                } else {
+                    button.setBackgroundResource(R.drawable.back_true_back);
+                    result = CORRECT_ANSWER;
+                }
+                YoYo(view);
+            } else {
+                if (getAdapterPosition() >= list.size() - 1) {
+                    button.setBackgroundResource(R.drawable.back_wrong);
+                    result = CORRECT_AND_FINAL_ANSWER;
+
+                } else {
+                    button.setBackgroundResource(R.drawable.back_wrong);
+                    result = WRONG_ANSWER;
+                }
+                YoYo.with(Techniques.Tada)
+                        .duration(500)
+                        .repeat(1)
+                        .playOn(view);
+            }
+            buttonClickable(false);
+            showCorrectButton(binding.getQuestion());
+
+            answerClick.onClick(result, binding.getQuestion().getIncorrect_answers().get(positionAnswer));
         }
+
+        private void buttonClickable(boolean clickable) {
+            binding.qBtn1.setClickable(clickable);
+            binding.qBtn2.setClickable(clickable);
+            binding.qBtn3.setClickable(clickable);
+            binding.qBtn4.setClickable(clickable);
+            binding.questionBtnYes.setClickable(clickable);
+            binding.questionBtnNo.setClickable(clickable);
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        @RequiresApi(api = Build.VERSION_CODES.M)
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if (binding.getQuestion().getIsSkipClicked().getValue() != null)
+                if (binding.getQuestion().getIsSkipClicked().getValue()) return false;
+            if (binding.getQuestion().isClick()) return false;
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    v.setBackgroundResource(R.drawable.back_true_back);
+                    return false; // if you want to handle the touch event
+                case MotionEvent.ACTION_UP:
+                    v.setBackgroundResource(R.drawable.btn_trassparent_style);
+                    return false; // if you want to handle the touch event
+            }
+            return false;
+        }
+
+        @SuppressLint("ClickableViewAccessibility")
+        private void onTouch() {
+            binding.qBtn1.setOnTouchListener(this);
+            binding.qBtn2.setOnTouchListener(this);
+            binding.qBtn3.setOnTouchListener(this);
+            binding.qBtn4.setOnTouchListener(this);
+            binding.questionBtnYes.setOnTouchListener(this);
+            binding.questionBtnNo.setOnTouchListener(this);
+        } // инитим
     }
 
-    public interface Listener{
-        void onAnswerClick(int position, int answerPosition);
+    public interface OnResultAnswerClickListener {
+        void onClick(int result, String answer);
     }
 }
 

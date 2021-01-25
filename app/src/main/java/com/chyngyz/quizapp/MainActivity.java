@@ -1,13 +1,12 @@
-package com.chyngyz.quizapp;  
+package com.chyngyz.quizapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
-
 import com.chyngyz.quizapp.ui.MineViewPager;
 import com.chyngyz.quizapp.ui.adapter.MainViewPagerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    @SuppressLint("NonConstantResourceId")
     private void onClickBottomNavGetByIdViewPager() {
         bottomNavigationView.setOnNavigationItemSelectedListener((MenuItem item) -> {
             switch (item.getItemId()) {

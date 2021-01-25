@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View"/>
@@ -8,9 +10,7 @@
             type="com.chyngyz.quizapp.ui.question.QuestionViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.question.QuestionActivity">
@@ -23,6 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.08"
             app:layout_constraintStart_toStartOf="parent"
+            android:onClick="@{() -> questionViewModel.onBackImgClick()}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
@@ -76,14 +77,15 @@
                 tools:listitem="@layout/quiz_item" />
 
 
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/skip"
                 style="@style/skip_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/skip_btn_style"
                 android:layout_marginTop="80dp"
                 android:text="skip"
-                app:cornerRadius="20dp" />
+                android:onClick="@{() -> questionViewModel.onSkip()}"/>
 
         </LinearLayout>
 

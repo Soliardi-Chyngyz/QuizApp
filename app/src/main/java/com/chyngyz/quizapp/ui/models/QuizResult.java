@@ -1,23 +1,49 @@
 package com.chyngyz.quizapp.ui.models;
 
-import android.provider.ContactsContract;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.chyngyz.quizapp.data.room.converter.DateConverter;
+import com.chyngyz.quizapp.data.room.converter.QuestionConverter;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+@Entity(tableName = "QResult")
+public class QuizResult implements Serializable {
 
-public class QuizResult  {
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+    @ColumnInfo(name = "category")
     private String category;
+    @ColumnInfo(name = "difficulty")
     private String difficulty;
-    private int correctAnswer;
+    @ColumnInfo(name = "correct_answer")
+    private String correctAnswer;
+    @TypeConverters({DateConverter.class})
     private Date createdAt;
+    @TypeConverters({QuestionConverter.class})
     private List<Question> questionList;
 
-    public QuizResult(String category, String difficulty, int correctAnswer, Date createdAt, List<Question> questionList) {
+
+    public QuizResult(String category, String difficulty, String correctAnswer, Date createdAt, List<Question> questionList) {
         this.category = category;
         this.difficulty = difficulty;
         this.correctAnswer = correctAnswer;
         this.createdAt = createdAt;
         this.questionList = questionList;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getCategory() {
@@ -36,11 +62,11 @@ public class QuizResult  {
         this.difficulty = difficulty;
     }
 
-    public int getCorrectAnswer() {
+    public String getCorrectAnswer() {
         return correctAnswer;
     }
 
-    public void setCorrectAnswer(int correctAnswer) {
+    public void setCorrectAnswer(String correctAnswer) {
         this.correctAnswer = correctAnswer;
     }
 
