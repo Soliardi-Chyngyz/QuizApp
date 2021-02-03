@@ -2,7 +2,9 @@
 <layout>
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="binding"
             type="com.chyngyz.quizapp.ui.settingsFragment.SettingsViewModel" />
@@ -30,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="28dp"
-            android:background="@color/teal_200" />
+            android:background="@color/green" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -61,10 +63,44 @@
                 app:layout_constraintVertical_bias="0.542" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/teal_200" />
+            android:background="@color/green" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/history_theme"
+                style="@style/text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="19dp"
+                android:text="Choose theme"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.933"
+                app:layout_constraintStart_toEndOf="@+id/history_theme"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.542" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/green" />
     </LinearLayout>
 </layout>

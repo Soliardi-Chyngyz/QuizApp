@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
+
+import com.chyngyz.quizapp.QuizApp;
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.databinding.ActivityResultBinding;
 import com.chyngyz.quizapp.ui.models.QuizResultNoRoom;
@@ -16,6 +18,7 @@ public class ResultActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(QuizApp.getInstance().getPrefs().getTheme());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 

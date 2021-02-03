@@ -2,18 +2,25 @@ package com.chyngyz.quizapp.ui.settingsFragment;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.chyngyz.quizapp.QuizApp;
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.databinding.SettingsFragmentBinding;
 import com.chyngyz.quizapp.ui.historyFragment.HistoryViewModel;
+import com.chyngyz.quizapp.ui.settingsFragment.settings.SettingsActivity;
 
 public class SettingsFragment extends Fragment {
 
@@ -46,9 +53,19 @@ public class SettingsFragment extends Fragment {
                 .setNegativeButton("No", null)
                 .show());
 
-        mViewModel.getShowToast().observe(this, aBoolean -> {
-            if(aBoolean)
+        mViewModel.getShowToast().observe(requireActivity(), aBoolean -> {
+            if (aBoolean)
                 Toast.makeText(requireContext(), "History has been successful cleared", Toast.LENGTH_SHORT).show();
         });
+
+        clickOnTheme();
     }
+
+    private void clickOnTheme() {
+        binding.historyTheme.setOnClickListener(v -> {
+            startActivity(new Intent(requireActivity(), SettingsActivity.class));
+        });
+    }
+
+
 }

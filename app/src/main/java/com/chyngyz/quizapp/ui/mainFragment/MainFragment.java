@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
 
+import com.chyngyz.quizapp.QuizApp;
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.core.MineSeekBarChangeListener;
 import com.chyngyz.quizapp.databinding.MainFragmentBinding;
@@ -35,6 +36,7 @@ public class MainFragment extends Fragment {
     private int countOfCategory;
     private String valueOfDifficulty;
     private String titleOfCategory;
+    private int themeId;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -49,6 +51,8 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         binding.setMainFragment(mViewModel);
+        themeId = QuizApp.getInstance().getPrefs().getTheme();
+
 
         binding.seekBar.setOnSeekBarChangeListener(new MineSeekBarChangeListener() {
             @Override
@@ -135,5 +139,16 @@ public class MainFragment extends Fragment {
             });
         });
 
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (themeId != 0)
+            if (themeId != QuizApp.getInstance().getPrefs().getTheme()) {
+                Intent intent = requireActivity().getIntent();
+                requireActivity().finish();
+                startActivity(intent);
+            }
     }
 }

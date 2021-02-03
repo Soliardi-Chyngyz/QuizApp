@@ -25,4 +25,60 @@
         <item name="background">@drawable/skip_btn_style</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <!-- Light application theme. -->
+    <style name="AppLightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/purple_500</item>
+        <item name="colorAccent">@color/purple_500</item>
+        <item name="appBarLayoutStyle">@style/MyAppTheme</item>
+        <item name="android:buttonStyle">@style/btn_style</item>
+        <item name="android:windowBackground">@color/purple_500</item>
+        <item name="backgroundColor">@color/white</item>
+    </style>
+
+
+    <!-- Green application theme. -->
+    <style name="AppGreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/green</item>
+        <item name="colorAccent">@color/teal_700</item>
+        <item name="appBarLayoutStyle">@style/MyAppTheme</item>
+        <item name="android:windowBackground">@color/green</item>
+        <item name="android:buttonStyle">@style/btn_second_style</item>
+        <item name="backgroundColor">@color/green</item>
+    </style>
+
+
+    <!-- Dark application theme. -->
+    <style name="AppDarkTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#252424</item>
+        <item name="colorPrimaryDark">#000000</item>
+        <item name="colorAccent">@color/fiolet</item>
+        <item name="android:windowBackground">@color/dark</item>
+        <item name="appBarLayoutStyle">@style/MyAppTheme</item>
+        <item name="android:buttonStyle">@style/skip_btn</item>
+        <item name="backgroundColor">#252424</item>
+    </style>
+
+    <!-- Orange application theme. -->
+    <style name="AppOrangeTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#BAA525</item>
+        <item name="colorPrimaryDark">@color/skip</item>
+        <item name="android:windowBackground">#BAA525</item>
+        <item name="colorAccent">@color/blue</item>
+        <item name="appBarLayoutStyle">@style/MyAppTheme</item>
+        <item name="android:buttonStyle">@style/btn_style</item>
+        <item name="backgroundColor">#BAA525</item>
+
+    </style>
+
+    <style name="MyAppTheme" parent="android:Theme.Holo.Light">
+        <item name="android:windowContentOverlay">@android:color/transparent</item>
+        <item name="elevation">0dp</item>
+    </style>
 </resources>
