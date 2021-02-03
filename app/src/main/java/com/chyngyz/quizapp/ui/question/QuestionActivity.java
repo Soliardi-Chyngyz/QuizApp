@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.chyngyz.quizapp.QuizApp;
 import com.chyngyz.quizapp.R;
 import com.chyngyz.quizapp.databinding.ActivityQuestionBinding;
 import com.chyngyz.quizapp.ui.adapter.QuizAdapter;
@@ -30,6 +32,7 @@ public class QuestionActivity extends AppCompatActivity implements QuizAdapter.O
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(QuizApp.getInstance().getPrefs().getTheme());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
 

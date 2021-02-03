@@ -12,12 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizApp">
-        <activity android:name=".ui.resultActivity.ResultActivity"></activity>
+        <activity android:name=".ui.settingsFragment.settings.SettingsActivity" />
+        <activity android:name=".ui.resultActivity.ResultActivity" />
         <activity android:name=".ui.question.QuestionActivity" />
         <activity android:name=".SecActivity" />
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/SplashTheme">
+            android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

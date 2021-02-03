@@ -1,7 +1,9 @@
 package com.chyngyz.quizapp;
 
 import android.app.Application;
+
 import androidx.room.Room;
+
 import com.chyngyz.quizapp.data.IHistoryStorage;
 import com.chyngyz.quizapp.data.room.QuizDataBase;
 import com.chyngyz.quizapp.data.QuizApiService;
@@ -13,6 +15,7 @@ public class QuizApp extends Application {
     private static QuizApp instance;
     private QuizRepository quizRepository;
     private QuizDataBase quizDataBase;
+    private Prefs prefs;
 
 
     @Override
@@ -26,6 +29,7 @@ public class QuizApp extends Application {
                 .fallbackToDestructiveMigration() //разрешить миграцию
                 .allowMainThreadQueries()
                 .build();
+        prefs = new Prefs(this);
     }
 
     public static QuizApp getInstance() {
@@ -40,4 +44,7 @@ public class QuizApp extends Application {
         return quizDataBase;
     }
 
+    public Prefs getPrefs() {
+        return prefs;
+    }
 }
